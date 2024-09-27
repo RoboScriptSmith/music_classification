@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Classification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Music Genre Classification</h1>
+        <form id="audioForm" enctype="multipart/form-data">
+            <input type="file" id="audioFile" accept="audio/*" required>
+            <button type="submit">Classify</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Genre Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Music Genre Classification</h2>
+        <p>Select an audio file to classify its genre:</p>
+        <input type="file" id="audioFile" accept="audio/*">
+        <br>
+        <button onclick="uploadFile()">Classify</button>
+        <div class="result">
+            <h3>Prediction:</h3>
+            <p id="predictionResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function uploadFile() {
+            var fileInput = document.getElementById('audioFile');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').textContent = data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('predictionResult').textContent = 'Error during prediction.';
+            });
+        }
+    </script>
+</body>
+</html>
